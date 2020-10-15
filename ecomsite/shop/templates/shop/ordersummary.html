@@ -1,0 +1,137 @@
+{% extends 'shop/BasePage.html' %}
+{% load static %}
+{% block content %}
+<!-- breadcrumbs -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <ol class="breadcrumb breadcrumb1">
+        <li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+        <li class="active">Order Summary Page</li>
+      </ol>
+    </div>
+  </div>
+<!-- //breadcrumbs -->
+<!-- checkout -->
+   
+{% if order_obj.items.all %}
+  <div class="checkout">
+    <div class="container">
+        <h2>Your shopping cart contains: <span>{{ order_obj.items.count}} Items</span></h2>
+      <div class="checkout-right">
+        <table class="timetable_sub">
+          <thead>
+            <tr>
+              <th>SL No.</th> 
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Product Name</th>
+              <th>Actual Price</th>
+              <th>Discount Price</th>
+              <th>Total Savings</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+
+    {% for order in order_obj.items.all %}     
+          <tr class="rem1">
+            <td class="invert">{{ forloop.counter }}</td>
+           <!--  <td class="invert-image"><a href="single.html"><img src="{{order.item.image}}" alt=" " width="100px" height="auto" class="img-responsive" /></a></td> -->
+             <td><a href="{% url 'DetailView' id=order.item.id %}"><img src="{{order.item.image.url}}" alt=" " width="100px" height="auto" class="img-responsive" /></a></td>
+            <td class="invert">
+               <div class="quantity"> 
+                <div class="quantity-select">  
+                <a href="{% url 'remove_single_item_from_cart' id=order.item.id %}">
+                  <div class="entry value-minus">&nbsp;</div>
+                </a>                         
+                  <div class="entry value"><span>{{order.quantity}}</span></div>
+                <a href="{% url 'Increment_cart_quantity' id=order.item.id %}">
+                  <div class="entry value-plus active">&nbsp;</div>
+                </a>      
+                </div>
+              </div>
+            </td>            
+            <td class="invert">{{order.item.title}}</td>
+            <td><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order.get_total_item_price }}</td>
+            {% if order.item.discount_price %}
+              <td class="invert"><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order.get_total_discount_item_price }}</td>
+              <td class="invert"><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order.get_amount_saved }}</td>
+            {% else %}
+                <td class="invert"><img width='9px' src='{% static "shop/rupee.png" %}'>0</td>
+                <td class="invert"><img width='9px' src='{% static "shop/rupee.png" %}'>0</td>
+            {% endif %}
+            
+            <td class="invert">
+              <div class="rem">
+                <a href="{% url 'RemoveFromcart' id=order.item.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+              </div>
+            </td>
+          </tr>
+      {% endfor %}        
+                <!--quantity-->
+                  <script>
+                  $('.value-plus').on('click', function(){
+                    var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+                    divUpd.text(newVal);
+                  });
+
+                  $('.value-minus').on('click', function(){
+                    var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+                    if(newVal>=1) divUpd.text(newVal);
+                  });
+                  </script>
+                <!--quantity-->
+        </table>
+      </div>
+      <div class="checkout-left"> 
+        <div class="checkout-left-basket">
+          {% if order_obj.get_total %}
+            {% if user.is_authenticated %}
+              <a href='{% url "checkout" %}'>
+                <h4>Continue to checkout</h4>
+              </a>
+            {% else %}
+              <a href='{% url "Login" %}'>
+                <h4>Continue to checkout</h4>
+              </a>
+            {% endif %}
+            <ul>
+            {% for order in order_obj.items.all %}
+              {% if order.item.discount_price %}
+                <li>{{order.item.title}}<i>-</i> 
+                  <span><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order.get_total_discount_item_price }}</span>
+                </li>
+              {% else %}
+                <li>{{order.item.title}}<i>-</i> 
+                  <span><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order.get_total_item_price }}</span>
+                </li>
+              {% endif %}
+            {% endfor %}
+                <li><b>Total</b> <i>-</i>
+                  <span><img width='9px' src='{% static "shop/rupee.png" %}'>{{ order_obj.get_total }}</span>
+                </li>
+            </ul>
+          {% endif %}
+        </div>
+        <div class="checkout-right-basket">
+          <a href="{% url 'index' %}"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+  </div>
+{% else %}
+    <div class="login">
+      <div class="container">
+        <h2>Your shopping  cart is Empty</h2>
+        <div class="checkout-left"> 
+          <div class="checkout-right-basket">
+            <a href="{% url 'index' %}"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+          </div>
+          <div class="clearfix">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+<!-- //checkout -->
+{% endblock %}

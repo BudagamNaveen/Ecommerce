@@ -1,0 +1,112 @@
+{% extends 'shop/BasePage.html' %}
+{% load static %}
+{% block content %}
+<!-- main-slider -->
+<ul id="demo1">
+	<li>
+		<img src="{% static 'shop/images/11.jpg' %}" alt="" />
+		<div class="slide-desc">
+			<h3>Buy Latest Products Are Now On Line With Us</h3>
+		</div>
+	</li>
+	<li>
+		<img src="{% static 'shop/images/22.jpg' %}" alt="" />
+		  <div class="slide-desc">
+			<h3>Whole Brand New Products Are Now On Line With Us</h3>
+		</div>
+	</li>
+	<li>
+		<img src="{% static 'shop/images/44.jpg' %}" alt="" />
+		<div class="slide-desc">
+			<h3>Whole Products Are Now On Line With Us</h3>
+		</div>
+	</li>
+</ul>
+<!-- //main-slider -->
+<div class="top-brands">
+	<div class="container">
+		<h2>Top selling offers</h2>
+			<div class="grid_3 grid_5">
+				<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+					<div id="myTabContent" class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="expeditions" aria-labelledby="expeditions-tab">
+						<div class="agile_top_brands_grids">
+							{% for product in product_objects %}
+							<div class="col-md-4 top_brand_left">
+								<div class="hover14 column">
+									<div class="agile_top_brand_left_grid">
+						<div class="agile_top_brand_left_grid_pos">
+							<img src="{% static 'shop/images/offer.png' %}"  alt=" " class="img-responsive" />
+						</div>
+						<div class="agile_top_brand_left_grid1">
+							<figure>
+								<div class="snipcart-item block" >
+		<div class="snipcart-thumb">
+			<a href="{% url 'SubCatergory_View' id=product.id %}"><img title=" " alt=" " src="{{product.MainCategory_image.url}}" width='250px' height='auto'/></a>		
+			<p><strong>{{product.MainCategory}}</strong></p>
+			<!-- <h4>${{product.price}}<span>${{product.discount_price}}</span></h4> -->
+		</div>
+		<div class="snipcart-details top_brand_home_details">
+			<!-- <a href="{% url 'DetailView' id=product.id %}">
+				<input type="submit" name="submit" value="Quick View" class="button" />
+			</a> -->
+			<a href="{% url 'SubCatergory_View' id=product.id %}">
+				<input type="submit" name="submit" value="Quick View" class="button" />
+			</a>
+		</div>
+								</div>
+							</figure>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+<!--PAGINATION CODE---------->
+<!-- <div class="row">
+	<div class='col-md-3 offset-md-4'>
+		<ul class='pagination'>
+			{% if product_objects.has_previous %}
+				<li class='page-item'>
+					<a class='page-link' href="?page={{ product_objects.previous_page_number }}">Previous</a>
+				</li>
+			{% endif %}
+				<li class='page-item active'>
+					<a class='page-link' href="?page={{ product_objects.number }}">Current</a>
+				</li>
+			{% if product_objects.has_next %}
+				<li class='page-item'>
+					<a class='page-link' href="?page={{ product_objects.next_page_number }}">Next</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</div> -->
+
+<!--PAGINATION CODE---------->
+<div class="clearfix"></div>
+<!--PAGINATION CODE---------->
+<nav class="numbering">
+	<ul class="pagination paging">
+		{% if Subcategories_obj.has_previous %}
+			<li>
+				<a href="?page={{ Subcategories_obj.previous_page_number }}">Previous</a>
+			</li>
+		{% endif %}
+			<li class="active">
+				<a href="?page={{ Subcategories_obj.number }}">current<span class="sr-only">(current)</span>
+				</a>
+			</li>
+		{% if Subcategories_obj.has_next %}
+			<li><a href="?page={{ Subcategories_obj.next_page_number }}">Next</a></li>
+		{% endif %}
+	</ul>
+</nav>
+<!--PAGINATION CODE---------->
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

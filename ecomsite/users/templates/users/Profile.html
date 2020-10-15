@@ -1,0 +1,66 @@
+{% extends "shop/BasePage.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Profile Page</li>
+        </ol>
+    </div>
+</div>
+<!-- //breadcrumbs -->
+<div class="login">
+    <div class="container">
+        <h2>Profile Info</h2>
+        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+            <form method='POST'>
+                {% csrf_token %}
+            <div id="div_id_username" class="form-group"> 
+              <label for="id_username" class=" requiredField">
+                Username<span class="asteriskField">*</span> 
+              </label> 
+              <div class=""> 
+                <input type="text" name="username" value="{{ user.username }}" maxlength="150" class="textinput textInput form-control" required id="id_username"> 
+              </div> 
+            </div> 
+            <div id="div_id_email" class="form-group"> 
+              <label for="id_email" class=" requiredField">
+                Email<span class="asteriskField">*</span> 
+              </label> 
+              <div class=""> 
+                <input type="email" name="email" value="{{ user.email }}" class="emailinput form-control" required id="id_email"> 
+              </div> 
+            </div>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+        <p>
+          <a href="{% url 'index' %}">Home
+            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+          </a>
+        </p>
+    </div>
+</div>
+<!--Old code
+<div class="content-section">
+  	<div class="media">
+      <img class="rounded-circle account-img" src="{{ user.profile.Profilepic.url }}">
+      <div class="media-body">
+        <h2 class="article-title">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+    </div>
+  </div>
+	  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Profile Info</legend>
+          {{ u_form|crispy }}
+      </fieldset>
+      <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+      </div>
+  </form>
+</div>-->
+{% endblock content %}
