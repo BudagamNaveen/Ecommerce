@@ -136,4 +136,4 @@ EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 EMAIL_HOST_USER = 'naveens431@gmail.com'
-EMAIL_HOST_PASSWORD = 'Iphone4iphone6iphone6siphonex'
+EMAIL_HOST_PASSWORD = ''
